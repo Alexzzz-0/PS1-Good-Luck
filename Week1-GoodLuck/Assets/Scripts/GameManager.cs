@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,6 +14,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject humanC;
     [SerializeField] private GameObject humanD;
 
+    //[SerializeField] private Canvas intro;
+    
     public KeyCode playerAleft;
     public KeyCode playerAright;
 
@@ -26,15 +30,25 @@ public class GameManager : MonoBehaviour
 
     public TextMeshProUGUI gameStateText;
 
-    public float distance = 1f;
+    //public float distance = 1f;
+
+    public bool Amove = false;
+    public bool Bmove = false;
+    public bool Cmove = false;
+    public bool Dmove = false;
+
+    public bool Bdone = false;
+    public bool Ddone = false;
     
-    private float checkTime = 100f;
+    private float checkTime = 10f;
     
     private bool canMove = true;
     private bool Arotate = false;
     private bool Brotate = false;
     private bool Crotate = false;
     private bool Drotate = false;
+
+    public static GameManager instance;
 
 //     enum GameState
 //     {
@@ -134,50 +148,75 @@ public class GameManager : MonoBehaviour
 //         // }
 //     }
 //
-//     void ARotate()
-//     {
-//         if (Input.GetKey(playerAleft))
-//         {
-//             humanA.GetComponent<PlayerBehavior>().RotateTheView(-1);
-//         }else if (Input.GetKey(playerAright))
-//         {
-//             humanA.GetComponent<PlayerBehavior>().RotateTheView(1);
-//         }
-//     }
-//
-//     void BRotate()
-//     {
-//         if (Input.GetKey(playerBleft))
-//         {
-//             humanB.GetComponent<PlayerBehavior>().RotateTheView(-1);
-//         }else if (Input.GetKey(playerBright))
-//         {
-//             humanB.GetComponent<PlayerBehavior>().RotateTheView(1);
-//         }
-//     }
-//
-//     void CRotate()
-//     {
-//         if (Input.GetKey(playerCleft))
-//         {
-//             humanC.GetComponent<PlayerBehavior>().RotateTheView(-1);
-//         }else if (Input.GetKey(playerCright))
-//         {
-//             humanC.GetComponent<PlayerBehavior>().RotateTheView(1);
-//         }
-//     }
-//
-//     void DRotate()
-//     {
-//         if (Input.GetKey(playerDleft))
-//         {
-//             humanD.GetComponent<PlayerBehavior>().RotateTheView(-1);
-//         }else if (Input.GetKey(playerDright))
-//         {
-//             humanD.GetComponent<PlayerBehavior>().RotateTheView(1);
-//         }
-//     }
-//
+    enum GameState
+    {
+        
+        run,
+        gamerotate,
+    }
+
+    private GameState _gameState = GameState.gamerotate;
+    private void Start()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
+        _gameState = GameState.gamerotate;
+
+        //Instantiate(intro);
+        
+    }
+
+    void ARotate()
+     {
+         if (Input.GetKey(playerAleft))
+         {
+             humanA.GetComponent<PlayerBehavior>().RotateTheView(-1);
+         }else if (Input.GetKey(playerAright))
+         {
+             humanA.GetComponent<PlayerBehavior>().RotateTheView(1);
+         }
+     }
+
+     void BRotate()
+     {
+         if (Input.GetKey(playerBleft))
+         {
+             humanB.GetComponent<PlayerBehavior>().RotateTheView(-1);
+         }else if (Input.GetKey(playerBright))
+         {
+             humanB.GetComponent<PlayerBehavior>().RotateTheView(1);
+         }
+     }
+
+     void CRotate()
+     {
+         if (Input.GetKey(playerCleft))
+         {
+             humanC.GetComponent<PlayerBehavior>().RotateTheView(-1);
+         }else if (Input.GetKey(playerCright))
+         {
+             humanC.GetComponent<PlayerBehavior>().RotateTheView(1);
+         }
+     }
+
+     void DRotate()
+     {
+         if (Input.GetKey(playerDleft))
+         {
+             humanD.GetComponent<PlayerBehavior>().RotateTheView(-1);
+         }else if (Input.GetKey(playerDright))
+         {
+             humanD.GetComponent<PlayerBehavior>().RotateTheView(1);
+         }
+     }
+
 //     void check()
 //     {
 //         float AB = Vector3.Distance(humanA.transform.position, humanB.transform.position);
@@ -240,6 +279,68 @@ public class GameManager : MonoBehaviour
 //         humanD.GetComponent<PlayerBehavior>().CharacterMoving(7f);
 //         
 //     }
+
+    
+
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.Space))
+        {
+            SceneManager.LoadScene(1);
+        }
+        
+        if (!humanA.activeSelf && !humanB.activeSelf && !humanC.activeSelf)
+        {
+            Debug.Log("WIN!");
+        }
+        
+        switch (_gameState)
+        {
+            case GameState.gamerotate:
+                checkTime -= Time.deltaTime;
+                gameStateText.text = checkTime.ToString();
+                ARotate();
+                BRotate();
+                CRotate();
+                DRotate();
+                if (checkTime <= 0)
+                {
+                    _gameState = GameState.run;
+                    Amove = true;
+                    Bmove = true;
+                    Cmove = true;
+                    Dmove = true;
+                }
+                break;
+            case GameState.run:
+                if (Amove)
+                {
+                    humanA.GetComponent<PlayerBehavior>().Moving();
+                }
+
+                if (Bmove)
+                {
+                    humanB.GetComponent<PlayerBehavior>().Moving();
+                }
+
+                if (Cmove)
+                {
+                    humanC.GetComponent<PlayerBehavior>().Moving();
+                }
+
+                if (Dmove)
+                {
+                    humanD.GetComponent<PlayerBehavior>().Moving();
+                }
+
+                if (!Amove && !Bmove && !Cmove && !Dmove)
+                {
+                    checkTime = 10f;
+                    _gameState = GameState.gamerotate;
+                }
+                break;
+        }
+    }
 
     
 }
