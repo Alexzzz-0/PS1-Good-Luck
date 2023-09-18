@@ -10,6 +10,8 @@ public class ComplexGameManager : MonoBehaviour
     
     [SerializeField] private GameObject pinkMan;
     [SerializeField] private ParticleSystem explode;
+    [SerializeField] private AudioSource zizi;
+    [SerializeField] private AudioSource scream;
 
     public float force = 1f;
 
@@ -20,7 +22,8 @@ public class ComplexGameManager : MonoBehaviour
     private GameObject menFather;
     private Rigidbody manRb;
     private float time = 20f;
-    private float startRunCountDown = 4f;
+    private float startRunCountDown = 2.5f;
+    private float endCount = 10f;
     private int round = 0;
     private int spawnCount = 0;
     private bool startRunCount = false;
@@ -71,7 +74,7 @@ public class ComplexGameManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.P))
         {
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene(0);
         }
         
 
@@ -162,9 +165,18 @@ public class ComplexGameManager : MonoBehaviour
                 
                 //start count down
                 startRunCount = true;
+                
+                //count how many times human are spawned
+                round += 1;
+                
+                zizi.Play();
+                scream.Play();
             }
            
         }
+
+       
+        
 
         if (startRunCount)
         {
@@ -178,7 +190,17 @@ public class ComplexGameManager : MonoBehaviour
             
             Debug.Log("StartRuning");
             startRunCount = false;
-            startRunCountDown = 4f;
+            startRunCountDown = 2.5f;
+        }
+        
+        if (round >= 3)
+        {
+            endCount -= Time.deltaTime;
+        }
+
+        if (endCount <= 0)
+        {
+            SceneManager.LoadScene(2);
         }
     }
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,6 +9,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject ball;
     [SerializeField] private GameObject man;
+    [SerializeField] private TextMeshProUGUI indication;
 
     public float force = 1f;
 
@@ -26,6 +28,8 @@ public class GameManager : MonoBehaviour
         ballFather = new GameObject("BallFather");
 
         round = 1;
+
+        indication.text = null;
     }
 
     
@@ -50,10 +54,15 @@ public class GameManager : MonoBehaviour
 
         #endregion
         
-        //destroy all balls
-        if (Input.GetKeyDown(KeyCode.Space))
+        // //destroy all balls
+        // if (Input.GetKeyDown(KeyCode.Space))
+        // {
+        //     Destroy(ballFather);
+        // }
+
+        if (Input.GetKeyDown(KeyCode.U))
         {
-            Destroy(ballFather);
+            SceneManager.LoadScene(1);
         }
 
         #region control the size of balls
@@ -64,12 +73,24 @@ public class GameManager : MonoBehaviour
             {
                 round += 1;
             }
+            else
+            {
+                indication.text = "It has been the biggest.";
+                Invoke("DeleteText",1f);
+            }
+            
         }else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             if (round >= 1)
             {
                 round -= 1;
             }
+            else
+            {
+                indication.text = "It has been the smallest.";
+                Invoke("DeleteText",1f);
+            }
+            
         }
         
         
@@ -77,21 +98,23 @@ public class GameManager : MonoBehaviour
         {
             case 0:
                 scale = 0.2f;
+                
                 break;
             case 1:
                 scale = 0.5f;
+                indication.text = null;
                 break;
             case 2:
                 scale = 1f;
+                indication.text = null;
                 break;
             case 3:
                 scale = 5f;
+                indication.text = null;
                 break;
             case 4:
                 scale = 10f;
-                break;
-            case 5:
-                Debug.Log("EndGame");
+                
                 break;
         }
             
@@ -148,5 +171,10 @@ public class GameManager : MonoBehaviour
     {
         //Debug.Log("Constrain");
         manRb.constraints = RigidbodyConstraints.FreezePosition;
+    }
+
+    void DeleteText()
+    {
+        indication.text = null;
     }
 }
