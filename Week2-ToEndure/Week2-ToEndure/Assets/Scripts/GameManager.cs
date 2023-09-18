@@ -14,7 +14,9 @@ public class GameManager : MonoBehaviour
     private GameObject ballFather;
     private Rigidbody manRb;
     private float scale = 0;
+    private float time = 20f;
     private int round = 0;
+    
     
     private void Start()
     {
@@ -33,7 +35,8 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R))
         {
-            SceneManager.LoadScene(0);
+            int index = SceneManager.GetActiveScene().buildIndex;
+            SceneManager.LoadScene(index);
         }
 
         #endregion
@@ -47,11 +50,14 @@ public class GameManager : MonoBehaviour
 
         #endregion
         
+        //destroy all balls
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Destroy(ballFather);
         }
-        
+
+        #region control the size of balls
+
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             if (round <= 3)
@@ -88,7 +94,11 @@ public class GameManager : MonoBehaviour
                 Debug.Log("EndGame");
                 break;
         }
-        
+            
+        #endregion
+
+        #region Spawn Balls
+
         if (Input.GetKeyDown(KeyCode.W))
         {
             GameObject upBall = Instantiate(ball);
@@ -128,11 +138,15 @@ public class GameManager : MonoBehaviour
             rightBall.GetComponent<Rigidbody>().AddForce(Vector3.left * force);
             
         }
+
+        #endregion
+
+        
     }
 
     void ConstrainMan()
     {
-        Debug.Log("Constrain");
+        //Debug.Log("Constrain");
         manRb.constraints = RigidbodyConstraints.FreezePosition;
     }
 }
