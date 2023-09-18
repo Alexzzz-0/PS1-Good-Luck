@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject humanC;
     [SerializeField] private GameObject humanD;
 
+    [SerializeField] private Animator black;
+
     //[SerializeField] private Canvas intro;
     
     public KeyCode playerAleft;
@@ -178,9 +180,11 @@ public class GameManager : MonoBehaviour
          if (Input.GetKey(playerAleft))
          {
              humanA.GetComponent<PlayerBehavior>().RotateTheView(-1);
+             black.SetInteger("Control",0);
          }else if (Input.GetKey(playerAright))
          {
              humanA.GetComponent<PlayerBehavior>().RotateTheView(1);
+             black.SetInteger("Control",1);
          }
      }
 
@@ -284,6 +288,8 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        //Time.timeScale = 1f / 2f;
+        
         if (Input.GetKey(KeyCode.Space))
         {
             SceneManager.LoadScene(1);
