@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class ComplexGameManager : MonoBehaviour
 {
     [SerializeField] private GameObject ball;
-    
+    [SerializeField] private TextMeshProUGUI endInsturction;
     [SerializeField] private GameObject pinkMan;
     [SerializeField] private ParticleSystem explode;
     [SerializeField] private AudioSource zizi;
@@ -24,6 +25,7 @@ public class ComplexGameManager : MonoBehaviour
     private float time = 20f;
     private float startRunCountDown = 2.5f;
     private float endCount = 10f;
+   
     private int round = 0;
     private int spawnCount = 0;
     private bool startRunCount = false;
@@ -41,8 +43,13 @@ public class ComplexGameManager : MonoBehaviour
         
         round = 1;
         
+        Invoke("EndInsturctionGone",3f);
     }
 
+    void EndInsturctionGone()
+    {
+        endInsturction.text = null;
+    }
     
     private void Update()
     {
@@ -193,7 +200,7 @@ public class ComplexGameManager : MonoBehaviour
             startRunCountDown = 2.5f;
         }
         
-        if (round >= 3)
+        if (round >= 4)
         {
             endCount -= Time.deltaTime;
         }
@@ -202,6 +209,7 @@ public class ComplexGameManager : MonoBehaviour
         {
             SceneManager.LoadScene(2);
         }
+        
     }
 
     void SetMenToRun()
@@ -222,5 +230,10 @@ public class ComplexGameManager : MonoBehaviour
     {
         //Debug.Log("Constrain");
         manRb.constraints = RigidbodyConstraints.FreezePosition;
+    }
+
+    void AddText()
+    {
+        
     }
 }
