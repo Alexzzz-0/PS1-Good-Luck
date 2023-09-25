@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+
 
 public class test : MonoBehaviour
 {
@@ -14,12 +16,17 @@ public class test : MonoBehaviour
     public float forwardForce = 300f;
     
     private Rigidbody rb;
+    
+    
 
-    [SerializeField] private TextMeshProUGUI retryTimes;
+    
     
     // Start is called before the first frame update
     void Start()
     {
+        
+        
+        
         rb = GetComponent<Rigidbody>();
     }
 
@@ -27,10 +34,7 @@ public class test : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Retry();
-        }
+        
         
         if (Input.GetKey(KeyCode.A))
         {
@@ -63,10 +67,7 @@ public class test : MonoBehaviour
             rb.MovePosition(transform.position + Vector3.down * Time.deltaTime * speed);
         }
 
-        if (transform.position.y <= -5f)
-        {
-            Retry();
-        }
+        
 
         // if (Input.GetKeyDown(key))
         // {
@@ -74,9 +75,7 @@ public class test : MonoBehaviour
         // }
     }
 
-    void Retry()
-    {
-        int index = SceneManager.GetActiveScene().buildIndex;
-        SceneManager.LoadScene(index);
-    }
+    
+
+    
 }
