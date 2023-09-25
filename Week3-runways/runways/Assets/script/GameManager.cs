@@ -9,11 +9,16 @@ using DG.Tweening;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI retryTimes;
+    [SerializeField] private TextMeshProUGUI force;
     [SerializeField] private TextMeshPro W;
     [SerializeField] private TextMeshPro A;
     [SerializeField] private TextMeshPro S;
     [SerializeField] private TextMeshPro D;
+    
     [SerializeField] private Transform foot;
+
+    [SerializeField] private test _big;
+    [SerializeField] private test _other;
 
     // [SerializeField] private Transform rope1;
     // [SerializeField] private Transform rope2;
@@ -28,6 +33,7 @@ public class GameManager : MonoBehaviour
     private string folder_dir;
     private string file_dir;
     private string textFromFile;
+    
 
     private bool hasFade = false;
     
@@ -61,6 +67,8 @@ public class GameManager : MonoBehaviour
 
         hasFade = false;
 
+        
+
         //_lineRenderer = GetComponent<LineRenderer>();
 
     }
@@ -73,25 +81,82 @@ public class GameManager : MonoBehaviour
             Retry();
         }
         
+        //if falling down
         if (foot.position.y <= -5f)
         {
             Retry();
         }
-
-        // linePos[0] = rope1.position;
-        // linePos[1] = rope2.position;
-        // linePos[2] = rope3.position;
         
-        //_lineRenderer.SetPositions(linePos);
-        
-        //game succeed
 
+        //disappear the instructions
         if (!hasFade)
         {
             if (Input.GetKeyDown(KeyCode.A))
             {
                 DisappearInstrcutions();
             }
+        }
+
+        //adjust the force
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            _big.speed = 10f;
+            _other.speed = 10f;
+            force.text = "Force: " + _big.speed.ToString();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            _big.speed = 109f;
+            _other.speed = 109f;
+            force.text = "Force: " + _big.speed.ToString();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            _big.speed = 208f;
+            _other.speed = 208f;
+            force.text = "Force: " + _big.speed.ToString();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            _big.speed = 307f;
+            _other.speed = 307f;
+            force.text = "Force: " + _big.speed.ToString();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            _big.speed = 406f;
+            _other.speed = 406f;
+            force.text = "Force: " + _big.speed.ToString();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            _big.speed = 505f;
+            _other.speed = 505f;
+            force.text = "Force: " + _big.speed.ToString();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha7))
+        {
+            _big.speed = 604f;
+            _other.speed = 604f;
+            force.text = "Force: " + _big.speed.ToString();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha8))
+        {
+            _big.speed = 703f;
+            _other.speed = 703f;
+            force.text = "Force: " + _big.speed.ToString();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha9))
+        {
+            _big.speed = 802f;
+            _other.speed = 802f;
+            force.text = "Force: " + _big.speed.ToString();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            _big.speed = 901f;
+            _other.speed = 901f;
+            force.text = "Force: " + _big.speed.ToString();
         }
         
     }

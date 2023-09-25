@@ -11,14 +11,10 @@ public class test : MonoBehaviour
 {
     public float speed = 10f;
     //public KeyCode key;
-
-    public float upForce = 1000f;
-    public float forwardForce = 300f;
+    
     
     private Rigidbody rb;
     
-    
-
     
     
     // Start is called before the first frame update
@@ -40,7 +36,7 @@ public class test : MonoBehaviour
         {
 
 
-            rb.MovePosition(transform.position + Vector3.left * Time.deltaTime * forwardForce);
+            rb.MovePosition(transform.position + Vector3.left * Time.deltaTime * speed);
 
         }
         
@@ -56,7 +52,7 @@ public class test : MonoBehaviour
         {
 
 
-            rb.MovePosition(transform.position + Vector3.up * Time.deltaTime * upForce);
+            rb.MovePosition(transform.position + Vector3.up * Time.deltaTime * speed);
 
         }
         
